@@ -65,6 +65,18 @@ Day 9(11-08-2024):
     -Added UI elements in "ChatArea.jsx" and "TextArea.jsx.
     -Message APIs created
     -Sender and Receiver texts appearing in chat Area are coded and tested. Has certain bugs to be ironed out tomorrow morning.
+    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-(Remaining work: adding the delete text functionality, voice/video call button functionality using webrtc, enabling real-time chat updation using socket.io)
+Day 10(12-08-2024):
+    -created socket server for bi directional message transmission.
+    -coded logic in socket.io for real-time update for texts in chats.
+    -added new functions and logic in chatContext.jsx for enabling the above said functionality.
+    -sorted chatArea.jsx bugs.
+    -added autoscroll functionality to chatArea.jsx where the chat auto scrolls when a new message is sent or received.
+    -Coded logic for connecting and disconnecting users, using the chat-app in real-time, in the socket server
+    -Delete functionality is still a WIP (running into errors when trying to implement it.
+    -Voice/Video call is also running into errors so a WIP.
+
+(Remaining work: adding the delete text functionality, voice/video call button functionality using webrtc)
 After all of this, app will be hosted on vercel.
