@@ -9,5 +9,6 @@ const router = express.Router();
 
 router.post("/", createText);
 router.get("/:chatId", getText);
+router.delete("/:id", deleteText);
 
 module.exports = router;

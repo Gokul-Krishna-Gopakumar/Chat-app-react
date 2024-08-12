@@ -1,14 +1,17 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { useFetchRecepientUser } from "../hooks/useFetchRecepientUser";
 import moment from "moment";
+import { deleteRequest } from "../utils/services";
 
 const ChatArea = () => {
   const { user } = useContext(AuthContext);
-  const { currentChat, messages, isMessagesLoading } = useContext(ChatContext);
+  const { currentChat, messages, isMessagesLoading, handleDeleteMessage } =
+    useContext(ChatContext);
   const { recepientUser } = useFetchRecepientUser(currentChat, user);
-
+  const [error, setError] = useState(null);
+  //const [deletingMessageId, setDeletingMessageId] = useState(null);
   // Create a ref for the chat container
   const endOfMessagesRef = useRef(null);
 
@@ -57,6 +60,14 @@ const ChatArea = () => {
                 <span className="flex font-thin text-xs mt-1 text-gray-400">
                   {moment(message.createdAt).calendar()}
                 </span>
+                {message.senderId === user?._id && (
+                  <button
+                    className="text-red-500 mt-2"
+                    onClick={() => handleDeleteMessage(message._id)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           </div>

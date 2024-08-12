@@ -18,6 +18,20 @@ io.on("connection", (socket) => {
     io.emit("getOnlineUsers", onlineUsers);
   });
 
+  /* 
+  // Handle WebRTC signaling
+  socket.on("signal", (data) => {
+    const { userId, signal } = data;
+    const recipient = onlineUsers.find(user => user.userId === userId);
+    if (recipient) {
+      io.to(recipient.socketId).emit("signal", {
+        signal,
+        senderId: socket.id
+      });
+    }
+  });
+  */
+
   //add message
   socket.on("sendMessage", (message) => {
     const user = onlineUsers.find(
@@ -27,6 +41,13 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.socketId).emit("getMessage", message);
     }
+  });
+
+  //delete message
+  // Server-side
+  socket.on("deleteMessage", (messageId) => {
+    console.log("Broadcasting message deletion:", messageId);
+    io.emit("messageDeleted", { messageId });
   });
 
   socket.on("disconnect", () => {

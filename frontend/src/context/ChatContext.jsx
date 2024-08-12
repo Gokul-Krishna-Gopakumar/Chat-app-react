@@ -58,10 +58,25 @@ export const ChatContextProvider = ({ children, user }) => {
       setMessages((prev) => [...prev, res]);
     });
 
-    //delete message
-
     return () => {
       socket.off("getMessage");
+    };
+  }, [socket, currentChat]);
+
+  //delete message
+  useEffect(() => {
+    if (socket === null) return;
+
+    socket.on("messageDeleted", ({ messageId }) => {
+      console.log("Received message deletion:", messageId);
+      if (currentChat?._id !== messageId.chatId) return;
+      setMessages((prevMessages) =>
+        prevMessages.filter((message) => message._id !== messageId)
+      );
+    });
+
+    return () => {
+      socket.off("messageDeleted");
     };
   }, [socket, currentChat]);
 
@@ -169,6 +184,35 @@ export const ChatContextProvider = ({ children, user }) => {
     setUserChats((prev) => [...prev, response]);
   }, []);
 
+  const handleDeleteMessage = async (messageId) => {
+    try {
+      // Delete the message from the backend
+      const response = await fetch(`${baseUrl}/texts/${messageId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Failed to delete message:", errorText);
+        throw new Error("Failed to delete message");
+      }
+
+      // Emit the delete event to the server
+      if (socket) {
+        socket.emit("deleteMessage", messageId);
+      }
+
+      // Update local messages state
+      setMessages((prevMessages) =>
+        prevMessages.filter((message) => message._id !== messageId)
+      );
+
+      console.log("Message deleted successfully");
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+
   return (
     <ChatContext.Provider
       value={{
@@ -184,6 +228,7 @@ export const ChatContextProvider = ({ children, user }) => {
         messagesError,
         sendText,
         onlineUsers,
+        handleDeleteMessage,
       }}
     >
       {children}
