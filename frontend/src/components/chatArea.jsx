@@ -35,7 +35,7 @@ const ChatArea = () => {
     );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-227px)] bg-emerald-950 m-2 p-2 rounded-lg text-white overflow-y-auto">
+    <div className="flex flex-col h-[calc(100vh-227px)] bg-emerald-950 m-2 p-2 rounded-lg text-white overflow-y-auto scrollbar-thin scrollbar-track-emerald-950 scrollbar-thumb-emerald-900 hover:scrollbar-thumb-emerald-900">
       {messages &&
         messages.map((message, index) => (
           <div
