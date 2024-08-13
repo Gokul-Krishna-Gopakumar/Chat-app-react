@@ -208,7 +208,7 @@ export const ChatContextProvider = ({ children, user }) => {
         socket.emit("deleteMessage", messageId);
       }
 
-      // Update local messages state
+      // Update messages state
       setMessages((prevMessages) =>
         prevMessages.filter((message) => message._id !== messageId)
       );
