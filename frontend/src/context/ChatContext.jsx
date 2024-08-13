@@ -1,5 +1,10 @@
 import { createContext, useState, useEffect, useCallback } from "react";
-import { baseUrl, getRequest, postRequest } from "../utils/services";
+import {
+  baseUrl,
+  deleteRequest,
+  getRequest,
+  postRequest,
+} from "../utils/services";
 import { io } from "socket.io-client";
 
 export const ChatContext = createContext();
@@ -213,6 +218,30 @@ export const ChatContextProvider = ({ children, user }) => {
     }
   };
 
+  const handleDeleteChat = useCallback(
+    async (chatId) => {
+      try {
+        const response = await deleteRequest(`${baseUrl}/chats/${chatId}`);
+        if (response.error) {
+          console.error("Error deleting chat:", response.message);
+          return;
+        }
+
+        setUserChats((prev) => prev.filter((chat) => chat._id !== chatId));
+
+        if (currentChat?._id === chatId) {
+          setCurrentChat(null);
+          setMessages(null);
+        }
+
+        console.log("Chat deleted successfully");
+      } catch (error) {
+        console.error("Error deleting chat:", error);
+      }
+    },
+    [currentChat]
+  );
+
   return (
     <ChatContext.Provider
       value={{
@@ -229,6 +258,7 @@ export const ChatContextProvider = ({ children, user }) => {
         sendText,
         onlineUsers,
         handleDeleteMessage,
+        handleDeleteChat,
       }}
     >
       {children}

@@ -1,52 +1,66 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Navbar from "../components/navbar";
 import SideBar from "../components/sidebar";
 import UserList from "../components/userList";
 import UserChat from "../components/userChat";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import PotentialChats from "../components/potentialChats";
+import NewChat from "../components/newChat";
 
 const MainChat = () => {
   const { user } = useContext(AuthContext);
 
-  const { userChats, updateCurrentChat } = useContext(ChatContext);
+  const { userChats, updateCurrentChat, createChat, potentialChats } =
+    useContext(ChatContext);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleStartChat = (userId) => {
+    createChat(user._id, userId);
+    handleCloseModal();
+  };
 
   return (
     <div>
       <Navbar />
-      <body className="flex h-[calc(100vh-56px)]">
+      <div className="flex h-[calc(100vh-56px)]">
         <SideBar />
-        <div className="flex flex-col bg-emerald-950 text-white min-h-72">
+        <div className="flex flex-col bg-emerald-950 text-white min-h-72 relative">
           <h3 className="bg-gray-950 flex justify-center items-center p-7">
             Users
           </h3>
-          <div className=" flex flex-col justify-between">
-            <div>
-              {userChats?.map((chat, index) => {
-                return (
-                  <div
-                    className="  text-white"
-                    key={index}
-                    onClick={() => updateCurrentChat(chat)}
-                  >
-                    <UserList chat={chat} user={user} />
-                  </div>
-                );
-              })}
-            </div>
-            {/*<div>
-              {PotentialChats && (
-                <div className=" absolute bottom-0 ">
-                  <StartNewChat />
+          <div className="flex flex-col justify-between flex-grow">
+            <div className="overflow-y-auto">
+              {userChats?.map((chat, index) => (
+                <div
+                  className="text-white cursor-pointer"
+                  key={index}
+                  onClick={() => updateCurrentChat(chat)}
+                >
+                  <UserList chat={chat} user={user} />
                 </div>
-              )}
-            </div> */}
+              ))}
+            </div>
+            <button
+              className="flex justify-center mx-3 mb-4 mt-auto rounded-xl bg-yellow-500 text-black font-semibold py-2 px-4"
+              onClick={handleOpenModal}
+            >
+              Start New Chat
+            </button>
           </div>
         </div>
-
         <UserChat />
-      </body>
+        {isModalOpen && (
+          <NewChat
+            potentialChats={potentialChats}
+            onClose={handleCloseModal}
+            onSelectUser={handleStartChat}
+          />
+        )}
+      </div>
     </div>
   );
 };
