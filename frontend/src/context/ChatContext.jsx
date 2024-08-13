@@ -74,10 +74,11 @@ export const ChatContextProvider = ({ children, user }) => {
 
     socket.on("messageDeleted", ({ messageId }) => {
       console.log("Received message deletion:", messageId);
-      if (currentChat?._id !== messageId.chatId) return;
-      setMessages((prevMessages) =>
-        prevMessages.filter((message) => message._id !== messageId)
-      );
+      if (currentChat?._id) {
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message._id !== messageId)
+        );
+      }
     });
 
     return () => {

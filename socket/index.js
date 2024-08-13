@@ -43,17 +43,11 @@ io.on("connection", (socket) => {
     }
   });
 
-  //delete message
-  // Server-side
   socket.on("deleteMessage", (messageId) => {
-    console.log("Broadcasting message deletion:", messageId);
+    console.log("Deleting message:", messageId);
+
+    // Broadcast the deletion to all clients
     io.emit("messageDeleted", { messageId });
-  });
-
-  socket.on("disconnect", () => {
-    onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
-
-    io.emit("getOnlineUsers", onlineUsers);
   });
 });
 
