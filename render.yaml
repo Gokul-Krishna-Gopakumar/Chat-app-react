@@ -1,10 +1,9 @@
 services:
-  - type: web
+  - type: static
     name: frontend
-    env: node
-
     buildCommand: "cd frontend && npm install && npm run build"
-    startCommand: "npx serve -s frontend/build"
+    publishPath: "frontend/build"
+    plan: free
     branch: main
 
   - type: web
