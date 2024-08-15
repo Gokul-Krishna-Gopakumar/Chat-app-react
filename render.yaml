@@ -3,7 +3,6 @@ services:
     name: frontend
     env: static
     buildCommand: "cd frontend && npm install && npm run build"
-    publishPath: "frontend/build"
 
     branch: main
 
