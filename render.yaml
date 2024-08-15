@@ -4,7 +4,7 @@ services:
     env: static
     buildCommand: "cd frontend && npm install && npm run build"
     startCommand: "cd frontend && npx serve -s build"
-    
+    publishPath: "frontend/build"    
     branch: main
 
   - type: web
