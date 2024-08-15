@@ -22,8 +22,3 @@ services:
     startCommand: "cd socket && npm start"
     plan: free
     branch: main
-
-  - type: database
-    name: mongo-db
-    database: mongodb
-    plan: free
