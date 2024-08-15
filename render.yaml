@@ -1,10 +1,9 @@
 services:
-  - type: web
+  - type: static
     name: frontend
     env: static
     buildCommand: "cd frontend && npm install && npm run build"
-    startCommand: "cd frontend && npx serve -s build"
-    plan: free
+    publishPath: "frontend/build"
     branch: main
 
   - type: web
@@ -22,8 +21,3 @@ services:
     startCommand: "cd socket && npm start"
     plan: free
     branch: main
-
-  - type: database
-    name: mongo-db
-    database: mongodb
-    plan: free
