@@ -2,7 +2,7 @@ services:
   - type: static
     name: frontend
     buildCommand: "cd frontend && npm install && npm run build"
-    publishPath: "frontend/build"
+    publishPath: "frontend/dist"
     plan: free
     branch: main
 
@@ -13,6 +13,9 @@ services:
     startCommand: "cd backend && npm start"
     plan: free
     branch: main
+     envVars:
+      - key: ATLAS_URI
+        value: "mongodb+srv://gokul:gokul123@cluster0.a7vhlxn.mongodb.net/chatApp?retryWrites=true&w=majority&appName=Cluster0"
 
   - type: web
     name: socket
