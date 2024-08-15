@@ -78,5 +78,19 @@ Day 10(12-08-2024):
     -Delete functionality is still a WIP (running into errors when trying to implement it.
     -Voice/Video call is also running into errors so a WIP.
 
-(Remaining work: adding the delete text functionality, voice/video call button functionality using webrtc)
-After all of this, app will be hosted on vercel.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Day 11(13-08-2024):
+    -fixed the sync issue which occured when deleting texts in a chat.
+    -created a delete chat option for a user chat.
+    -created a "Start new Chat" button option for registered users.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Day 12(14-08-2024):
+    -Tried and tested video calling with PeerJS. Couldn't sort it out. Tried and failed, tried and failed.
+    -So no real progress made today, unfortunately.
+
+
+(Remaining work:  voice/video call button functionality using peerJS)
+After all of this, app will be hosted on render.
